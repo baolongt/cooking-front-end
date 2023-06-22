@@ -15,10 +15,7 @@ import {
   InsetSidebar,
 } from '@mui-treasury/layout';
 import AppHeader from './layouts/appHeader.js';
-import AppSidebar from './layouts/appSidebar.js';
 import ButtonBase from '@mui/material/ButtonBase';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { Avatar, Grid, IconButton, Toolbar } from '@mui/material';
 import {
   ArrowLeft,
