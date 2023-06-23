@@ -6,6 +6,7 @@ import Menu from '@mui/icons-material/Menu';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import Header from '../blogs/Header.js';
 import { sections } from '../../mock-data/index.js';
+import { Link } from 'react-router-dom';
 
 const AppHeader = () => {
   return (
@@ -18,6 +19,14 @@ const AppHeader = () => {
         )}
       </EdgeTrigger>
       <Header title="Blog" sections={sections} />
+      <Box>
+        <IconButton color="inherit" component={Link} to="/signin">
+          Signin
+        </IconButton>
+        <IconButton color="inherit" component={Link} to="/signup">
+          Signup
+        </IconButton>
+      </Box>
     </Box>
   );
 };
