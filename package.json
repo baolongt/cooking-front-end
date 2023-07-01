@@ -63,6 +63,7 @@
     "@mui-treasury/mockup": "^5.0.0-alpha.15",
     "@mui/icons-material": "^5.0.0-rc.1",
     "@mui/material": "^5.0.0-rc.1",
+    "axios": "^1.4.0",
     "css-loader": "^5.2.7",
     "html-loader": "^4.2.0",
     "markdown-loader": "^8.0.0",

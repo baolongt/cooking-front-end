@@ -5,6 +5,7 @@ import App from './components/App.js';
 import SignIn from './pages/signIn.js';
 import SignUp from './pages/signUp.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const router = createBrowserRouter([
   {
@@ -21,12 +22,15 @@ const router = createBrowserRouter([
   },
 ]);
 const defaultTheme = createTheme();
+const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={defaultTheme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={defaultTheme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
