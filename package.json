@@ -63,6 +63,7 @@
     "@mui-treasury/mockup": "^5.0.0-alpha.15",
     "@mui/icons-material": "^5.0.0-rc.1",
     "@mui/material": "^5.0.0-rc.1",
+    "axios": "^1.4.0",
     "css-loader": "^5.2.7",
     "html-loader": "^4.2.0",
     "markdown-loader": "^8.0.0",
@@ -70,6 +71,7 @@
     "npm": "^9.6.5",
     "postcss-loader": "^4.3.0",
     "raw-loader": "^4.0.2",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.13.0",
     "start": "^5.1.0",
     "style-loader": "^2.0.0"
