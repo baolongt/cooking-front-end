@@ -70,6 +70,7 @@
     "npm": "^9.6.5",
     "postcss-loader": "^4.3.0",
     "raw-loader": "^4.0.2",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.13.0",
     "start": "^5.1.0",
     "style-loader": "^2.0.0"
