@@ -18,8 +18,11 @@ const AppHeader = () => {
           </IconButton>
         )}
       </EdgeTrigger>
-      <Header title="Blog" sections={sections} />
+      <Header title="CookingBlog" sections={sections} />
       <Box>
+        <IconButton color="inherit" component={Link} to="/">
+          Main page
+        </IconButton>
         <IconButton color="inherit" component={Link} to="/signin">
           Signin
         </IconButton>

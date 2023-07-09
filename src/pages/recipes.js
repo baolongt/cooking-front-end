@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { listRecipes } from '../apis/listRecipes';
+import { listRecipes } from '../apis/recipe/listRecipes';
 import RecipesGrid from '../components/recipe/recipesGrid';
 
 const Recipes = () => {

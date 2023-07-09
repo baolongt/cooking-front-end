@@ -4,8 +4,10 @@ import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import { useQuery } from 'react-query';
-import { searchRecipe } from '../../apis/searchRecipe.js';
+import { searchRecipe } from '../../apis/recipe/searchRecipe.js';
 import RecipesGrid from '../recipe/recipesGrid.js';
+import { Button, Stack } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const AppContent = () => {
   const [search, setSearch] = useState('');
@@ -16,7 +18,6 @@ const AppContent = () => {
     if (!isSearch || search !== '') {
       const handler = setTimeout(() => {
         setIsSearch(true);
-        console.log('isSearch: ', isSearch);
       }, 1500);
 
       return () => {
@@ -24,10 +25,6 @@ const AppContent = () => {
       };
     }
   }, [search]);
-
-  useEffect(() => {
-    console.log('data', data);
-  }, [isSearch]);
 
   const { data, isLoading, error } = useQuery(
     ['recipes', { recipeName: search }],
@@ -40,7 +37,9 @@ const AppContent = () => {
 
   return (
     <>
-      <div
+      <Stack
+        direction="row"
+        spacing={2}
         style={{
           display: 'flex',
           justifyContent: 'center',
@@ -49,6 +48,9 @@ const AppContent = () => {
           margin: '1rem',
         }}
       >
+        <Link to="/recipes/add">
+          <Button variant="outlined">Add new recipe</Button>
+        </Link>
         <Input
           sx={{ width: '50%' }}
           id="input-with-icon-adornment"
@@ -61,10 +63,9 @@ const AppContent = () => {
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
-            console.log(search);
           }}
         />
-      </div>
+      </Stack>
 
       {search.length === 0 ? (
         <Recipes />

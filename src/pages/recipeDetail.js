@@ -1,18 +1,44 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { Link, useParams } from 'react-router-dom';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
-import { getRecipe } from '../apis/getRecipe';
+import { getRecipe } from '../apis/recipe/getRecipe';
+import { makeStyles } from '@mui/styles';
+import { convert } from 'html-to-text';
+import { Link as ReouterLink } from 'react-router-dom';
+
+const useStyles = makeStyles(() => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'left',
+    height: '100vh',
+    gap: '0.5rem',
+  },
+  image: {
+    width: '100%',
+    height: '50%',
+  },
+  p: {
+    width: '100%',
+  },
+  ingredient: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  description: {
+    width: '100%',
+  },
+}));
 
 const RecipeDetail = () => {
   const { id } = useParams();
-  const { data, isLoading, error } = useQuery('recipe', () => getRecipe(id));
-
-  useEffect(() => {
-    console.log(data);
-    console.log(isLoading);
-    console.log(error);
-  }, []);
+  const { data, isLoading, error } = useQuery(['recipes', id], () =>
+    getRecipe(id)
+  );
+  const classes = useStyles();
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -22,19 +48,15 @@ const RecipeDetail = () => {
     return <span>Error: {error.message}</span>;
   }
 
-  const { recipeDetails } = data;
+  const {
+    recipeDetails,
+    description,
+    recipeImage,
+    account: { accountID, userName },
+  } = data;
 
   return (
-    <div
-      style={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        gap: '0.5rem',
-        marginLeft: '10rem',
-      }}
-    >
+    <div className={classes.root}>
       <Typography
         variant="h4"
         sx={{
@@ -43,33 +65,30 @@ const RecipeDetail = () => {
       >
         {data.recipeName}
       </Typography>
-      <div className="title-small">
-        <span>Written By {data.account.username}</span>
-        <span>Created On {data.createDate}</span>
-      </div>
-      <img
-        src={data.recipeImage}
-        className="image-recipe"
-        style={{
-          width: '35%',
-          height: '50%',
-        }}
-      />
-      <p
-        style={{
-          width: '50%',
-        }}
-      >
-        {data.description}
-      </p>
-      <div className="ingredient">
-        <h2>Ingredients</h2>
-        {recipeDetails.map((recipe, index) => (
-          <li
-            key={index}
-          >{`${recipe.ingredient.ingredientName} ${recipe.quantity} ${recipe.unit}`}</li>
-        ))}
-      </div>
+      <Stack direction="row" spacing={2}>
+        <Button variant="outlined">Add to wishlist</Button>
+        <ReouterLink to={`/recipes/${id}/edit`}>
+          <Button variant="outlined">Edit</Button>
+        </ReouterLink>
+        <Button variant="outlined">Delete</Button>
+      </Stack>
+      <Stack spacing={2}>
+        <span>
+          Written By <Link to={`/users/${accountID}`}>{userName}</Link>
+        </span>
+
+        <span>Created On {data.createDate.split('T')[0]}</span>
+        <img src={recipeImage} className={classes.image} />
+        <Box className={classes.description}>{convert(description)}</Box>
+        <div className={classes.ingredient}>
+          <h2>Ingredients</h2>
+          {recipeDetails.map((recipe, index) => (
+            <li
+              key={index}
+            >{`${recipe.ingredient.ingredientName} ${recipe.quantity} ${recipe.unit}`}</li>
+          ))}
+        </div>
+      </Stack>
     </div>
   );
 };

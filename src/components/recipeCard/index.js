@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import { convert } from 'html-to-text';
 
 export default function RecipeCard({
   recipe: { recipeName, recipeImage, description, recipeID },
@@ -33,13 +34,9 @@ export default function RecipeCard({
             {recipeName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {description}
+            {convert(description)}
           </Typography>
         </CardContent>
-        {/* <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions> */}
       </Card>
     </Link>
   );
