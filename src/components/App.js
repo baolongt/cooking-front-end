@@ -8,7 +8,8 @@ import RecipeAdd from './recipe/recipeAdd.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RecipeEdit from './recipe/recipeEdit.js';
-import Meals from './meal/MEals.js';
+import MealList from '../pages/meal/listMeal.js';
+import MealOrder from './meal/mealOrder.js';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
         <Route path="/recipes/add" element={<RecipeAdd />} />
         <Route path="/recipes/:id/edit" element={<RecipeEdit />} />
         <Route path="/users/:id" element={<UserDetail />} />
-        <Route path="/meals" element={<Meals />}></Route>
+        <Route path="/meals" element={<MealList />} />
+        <Route path="/meals/:id" element={<MealOrder />} />
       </Routes>
       <ToastContainer />
     </AppLayout>

@@ -22,6 +22,7 @@ import {
   ArrowRightAlt,
   Menu,
 } from '@mui/icons-material';
+import AppSidebar from './appSidebar.js';
 
 export const AppLayout = (props) => {
   return (
@@ -80,7 +81,13 @@ export const AppLayout = (props) => {
             </Toolbar>
           </Header>
           <EdgeSidebar anchor="left">
-            <SidebarContent></SidebarContent>
+            <SidebarContent>
+              <AppSidebar
+                sx={{
+                  ...(leftEdgeSidebar.collapsed && { width: 40, height: 40 }),
+                }}
+              ></AppSidebar>
+            </SidebarContent>
             <EdgeTrigger target={{ anchor: 'left', field: 'collapsed' }}>
               {(collapsed, setCollapsed) => (
                 <ButtonBase

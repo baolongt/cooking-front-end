@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';

@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 import Card from '@mui/material/Card';
+import Button from '@mui/material/Button';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { convert } from 'html-to-text';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 export default function MealCard({ mealID, description, price, recipe }) {
   return (
@@ -36,7 +38,10 @@ export default function MealCard({ mealID, description, price, recipe }) {
           </Typography>
           <Typography variant="body1" color="text.secondary">
             {price} $
-          </Typography>{' '}
+          </Typography>
+          <Link to={`/meals/${mealID}`} style={{ textDecoration: 'none' }}>
+            <Button startIcon={<ShoppingCartIcon />}>Order</Button>
+          </Link>
         </CardContent>
       </Card>
     </Link>
