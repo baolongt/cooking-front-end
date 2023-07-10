@@ -4,9 +4,8 @@ import IconButton from '@mui/material/IconButton';
 import { EdgeTrigger } from '@mui-treasury/layout';
 import Menu from '@mui/icons-material/Menu';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import Header from '../blogs/Header.js';
-import { sections } from '../../mock-data/index.js';
 import { Link } from 'react-router-dom';
+import { Stack } from '@mui/material';
 
 const AppHeader = () => {
   return (
@@ -18,18 +17,14 @@ const AppHeader = () => {
           </IconButton>
         )}
       </EdgeTrigger>
-      <Header title="CookingBlog" sections={sections} />
-      <Box>
+      <Stack direction="row" spacing={2} letterSpacing={1}>
         <IconButton color="inherit" component={Link} to="/">
-          Main page
+          Home
         </IconButton>
-        <IconButton color="inherit" component={Link} to="/signin">
-          Signin
+        <IconButton color="inherit" component={Link} to="/meals">
+          Meals
         </IconButton>
-        <IconButton color="inherit" component={Link} to="/signup">
-          Signup
-        </IconButton>
-      </Box>
+      </Stack>
     </Box>
   );
 };

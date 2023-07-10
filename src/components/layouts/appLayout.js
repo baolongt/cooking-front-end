@@ -80,15 +80,7 @@ export const AppLayout = (props) => {
             </Toolbar>
           </Header>
           <EdgeSidebar anchor="left">
-            <SidebarContent>
-              <Avatar
-                sx={{
-                  ...(leftEdgeSidebar.collapsed && { width: 40, height: 40 }),
-                }}
-              >
-                A
-              </Avatar>
-            </SidebarContent>
+            <SidebarContent></SidebarContent>
             <EdgeTrigger target={{ anchor: 'left', field: 'collapsed' }}>
               {(collapsed, setCollapsed) => (
                 <ButtonBase

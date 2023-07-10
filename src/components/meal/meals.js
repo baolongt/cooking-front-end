@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import Recipes from '../../pages/recipes.js';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import { useQuery } from 'react-query';
-import { searchRecipe } from '../../apis/recipe/searchRecipe.js';
-import RecipesGrid from '../recipe/recipesGrid.js';
-import { Button, Stack } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Stack } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import MealGrid from './mealGrid.js';
+import { listMeals } from '../../apis/meal/listMeals.js';
 
-const AppContent = () => {
+const Meals = () => {
   const [search, setSearch] = useState('');
   const [isSearch, setIsSearch] = useState(false);
 
@@ -26,10 +24,10 @@ const AppContent = () => {
   }, [search]);
 
   const { data, isLoading, error } = useQuery(
-    ['recipes', { recipeName: search }],
+    ['meals', { recipeName: search }],
     () => {
       setIsSearch(false);
-      return searchRecipe(search);
+      return listMeals(search);
     },
     { enabled: isSearch }
   );
@@ -47,13 +45,10 @@ const AppContent = () => {
           margin: '1rem',
         }}
       >
-        <Link to="/recipes/add">
-          <Button variant="outlined">Add new recipe</Button>
-        </Link>
         <Input
           sx={{ width: '50%' }}
           id="input-with-icon-adornment"
-          placeholder="Search for recipes..."
+          placeholder="Search for meals..."
           startAdornment={
             <InputAdornment position="start">
               <SearchIcon />
@@ -66,13 +61,9 @@ const AppContent = () => {
         />
       </Stack>
 
-      {search.length === 0 ? (
-        <Recipes />
-      ) : (
-        <RecipesGrid data={data} isLoading={isLoading} error={error} />
-      )}
+      <MealGrid data={data} isLoading={isLoading} error={error} />
     </>
   );
 };
 
-export default AppContent;
+export default Meals;
