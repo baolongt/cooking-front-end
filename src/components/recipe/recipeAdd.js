@@ -146,7 +146,6 @@ const RecipeAdd = () => {
     console.log(data);
     mutate({
       ...data,
-      accountID: '87178fa5-da59-42be-b694-38161f1e3f1d',
     });
   };
 

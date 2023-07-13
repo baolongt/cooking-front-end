@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Box, Button, Stack, Typography } from '@mui/material';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { getRecipe } from '../apis/recipe/getRecipe';
 import { makeStyles } from '@mui/styles';
 import { convert } from 'html-to-text';
 import { Link as ReouterLink } from 'react-router-dom';
+import DeleteModal from '../components/recipe/deleteModal';
+import { deleteRecipe } from '../apis/recipe/recipeDelete';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -34,10 +38,21 @@ const useStyles = makeStyles(() => ({
 }));
 
 const RecipeDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data, isLoading, error } = useQuery(['recipes', id], () =>
     getRecipe(id)
   );
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const { mutate } = useMutation({
+    mutationFn: deleteRecipe,
+    onSuccess: () => {
+      toast.success('Recipe deleted successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
   const classes = useStyles();
 
   if (isLoading) {
@@ -48,12 +63,35 @@ const RecipeDetail = () => {
     return <span>Error: {error.message}</span>;
   }
 
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true);
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    mutate(id);
+  };
+
   const {
     recipeDetails,
     description,
     recipeImage,
     account: { accountID, userName },
+    isOwner,
+    meal,
+    recipeID,
   } = data;
+
+  const handleClickMealButton = () => {
+    if (meal) {
+      navigate(`/meals/${meal.mealID}`);
+    } else {
+      navigate(`/meals/add/${recipeID}`);
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -66,11 +104,21 @@ const RecipeDetail = () => {
         {data.recipeName}
       </Typography>
       <Stack direction="row" spacing={2}>
-        <Button variant="outlined">Add to wishlist</Button>
-        <ReouterLink to={`/recipes/${id}/edit`}>
-          <Button variant="outlined">Edit</Button>
-        </ReouterLink>
-        <Button variant="outlined">Delete</Button>
+        {isOwner ? (
+          <>
+            <Button variant="outlined" onClick={handleClickMealButton}>
+              Meal
+            </Button>
+            <ReouterLink to={`/recipes/${id}/edit`}>
+              <Button variant="outlined">Edit</Button>
+            </ReouterLink>
+            <Button variant="outlined" onClick={handleDeleteOpen} color="error">
+              Delete
+            </Button>
+          </>
+        ) : (
+          <Button variant="outlined">Add to wishlist</Button>
+        )}
       </Stack>
       <Stack spacing={2}>
         <span>
@@ -88,6 +136,11 @@ const RecipeDetail = () => {
             >{`${recipe.ingredient.ingredientName} ${recipe.quantity} ${recipe.unit}`}</li>
           ))}
         </div>
+        <DeleteModal
+          open={deleteOpen}
+          handleClose={handleDeleteClose}
+          handleConfirm={handleConfirmDelete}
+        />
       </Stack>
     </div>
   );

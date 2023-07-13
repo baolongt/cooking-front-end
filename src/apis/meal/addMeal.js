@@ -1,8 +1,8 @@
 import axiosInstance from '../../utils/axios';
 
-export const createOrder = async (order) => {
-  return await axiosInstance.post('/Order', {
-    ...order,
+export const addMeal = async (meal) => {
+  return await axiosInstance.post('/Meal', {
+    ...meal,
     accountID: localStorage.getItem('accountID'),
   });
 };

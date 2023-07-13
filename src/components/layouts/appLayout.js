@@ -11,11 +11,10 @@ import {
   SidebarContent,
   EdgeTrigger,
   Content,
-  Footer,
 } from '@mui-treasury/layout';
 import AppHeader from './appHeader.js';
 import ButtonBase from '@mui/material/ButtonBase';
-import { Avatar, Grid, IconButton, Toolbar } from '@mui/material';
+import { Grid, IconButton, Toolbar } from '@mui/material';
 import {
   ArrowLeft,
   ArrowLeftOutlined,
@@ -106,7 +105,6 @@ export const AppLayout = (props) => {
               </Grid>
             </Grid>
           </Content>
-          <Footer>Footer</Footer>
         </>
       )}
     </Root>

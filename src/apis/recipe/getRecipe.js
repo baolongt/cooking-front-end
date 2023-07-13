@@ -1,7 +1,11 @@
 import axiosInstance from '../../utils/axios';
 
 export const getRecipe = async (id) => {
-  return await axiosInstance.get(`/Recipe/${id}`);
+  const result = await axiosInstance.get(`/Recipe/${id}`);
+  if (result.accountID == localStorage.getItem('accountID')) {
+    result.isOwner = true;
+  }
+  return result;
 };
 
 export const getRecipeForEdit = async (id) => {

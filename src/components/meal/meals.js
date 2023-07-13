@@ -24,7 +24,7 @@ const Meals = () => {
   }, [search]);
 
   const { data, isLoading, error } = useQuery(
-    ['meals', { recipeName: search }],
+    ['meals', { mealName: search }],
     () => {
       setIsSearch(false);
       return listMeals(search);
