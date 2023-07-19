@@ -3,6 +3,10 @@ import { Stack, TextField, Button, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useMutation } from 'react-query';
+import { signup } from '../../apis/account/signup';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const schema = yup.object().shape({
   userName: yup.string().required(),
@@ -12,6 +16,7 @@ const schema = yup.object().shape({
 });
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,8 +25,20 @@ const SignUp = () => {
     resolver: yupResolver(schema),
   });
 
+  const { mutate } = useMutation({
+    mutationFn: signup,
+    onSuccess: () => {
+      navigate('/');
+    },
+    onError: () => {
+      toast.error('Sign up failed');
+    },
+  });
+
   const onSubmit = (data) => {
-    console.log(data);
+    mutate({
+      ...data,
+    });
   };
 
   return (

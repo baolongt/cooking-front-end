@@ -7,5 +7,6 @@ export const signin = async (account) => {
     'accountID',
     JSON.stringify(result.accountID).replaceAll('"', '')
   );
+  localStorage.setItem('role', result.role.roleName);
   return result;
 };

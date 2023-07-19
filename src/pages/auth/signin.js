@@ -19,8 +19,9 @@ const SignIn = () => {
     mutationFn: signin,
     onSuccess: () => {
       navigate('/');
+      window.location.reload();
     },
-    onError: () => {
+    onError: (error) => {
       toast.error('Sign in failed');
     },
   });

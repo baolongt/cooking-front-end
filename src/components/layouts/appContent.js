@@ -10,8 +10,16 @@ import { Button, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const AppContent = () => {
+  const [isLoginin, setIsLoginin] = useState(false);
+
   const [search, setSearch] = useState('');
   const [isSearch, setIsSearch] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('accountID')) {
+      setIsLoginin(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (!isSearch || search !== '') {
@@ -47,9 +55,14 @@ const AppContent = () => {
           margin: '1rem',
         }}
       >
-        <Link to="/recipes/add">
-          <Button variant="outlined">Add new recipe</Button>
-        </Link>
+        {isLoginin ? (
+          <Link to="/recipes/add">
+            <Button variant="outlined">Add new recipe</Button>
+          </Link>
+        ) : (
+          <></>
+        )}
+
         <Input
           sx={{ width: '50%' }}
           id="input-with-icon-adornment"

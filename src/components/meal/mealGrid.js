@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import MealCard from './mealCard';
 
 const MealGrid = (props) => {
@@ -8,11 +8,11 @@ const MealGrid = (props) => {
   console.log('mealgrid', data);
 
   if (isLoading) {
-    return <span>Loading...</span>;
+    return <Typography>Loading...</Typography>;
   }
 
   if (error) {
-    return <span>Error: {error.message}</span>;
+    return <Typography>Error: {error.message}</Typography>;
   }
   return (
     <Grid container spacing={{ xs: 2, md: 3 }}>

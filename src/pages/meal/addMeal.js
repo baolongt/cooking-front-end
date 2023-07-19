@@ -52,11 +52,11 @@ const AddMeal = () => {
   };
 
   if (isLoading) {
-    return <span>Loading...</span>;
+    return <Typography>Loading...</Typography>;
   }
 
   if (error) {
-    return <span>Error: {error.message}</span>;
+    return <Typography>Error: {error.message}</Typography>;
   }
 
   const { recipeName } = data;

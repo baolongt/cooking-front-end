@@ -8,8 +8,10 @@ const AppSidebar = () => {
   const onLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('accountID');
+    localStorage.removeItem('role');
     window.location.reload();
   };
+
   return (
     <List>
       <Link
@@ -30,6 +32,30 @@ const AppSidebar = () => {
           </ListItemButton>
         </ListItem>
       </Link>
+
+      {localStorage.getItem('role') === 'US' ? (
+        <Link
+          to={'/orders'}
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <ListItem>
+            <ListItemButton
+              color="neutral"
+              disabled={false}
+              selected={false}
+              variant="plain"
+            >
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              Orders
+            </ListItemButton>
+          </ListItem>
+        </Link>
+      ) : (
+        <></>
+      )}
+
       <ListItem onClick={onLogout}>
         <ListItemButton
           color="neutral"

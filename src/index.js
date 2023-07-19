@@ -4,6 +4,7 @@ import { HashRouter } from 'react-router-dom';
 import App from './components/App.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ToastContainer } from 'react-toastify';
 
 const defaultTheme = createTheme();
 const queryClient = new QueryClient();
@@ -14,6 +15,7 @@ ReactDOM.render(
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={defaultTheme}>
           <App />
+          <ToastContainer />
         </ThemeProvider>
       </QueryClientProvider>
     </HashRouter>

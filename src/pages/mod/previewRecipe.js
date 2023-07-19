@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import { useMutation, useQuery } from 'react-query';
-import { getRecipe } from '../apis/recipe/getRecipe';
+import { getRecipe } from '../../apis/recipe/getRecipe';
 import { makeStyles } from '@mui/styles';
 import { convert } from 'html-to-text';
-import { Link as ReouterLink } from 'react-router-dom';
-import DeleteModal from '../components/recipe/deleteModal';
-import { deleteRecipe } from '../apis/recipe/recipeDelete';
+import { deleteRecipe } from '../../apis/recipe/recipeDelete';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Review from '../components/recipe/review';
-import AddReview from '../components/recipe/addReview';
+import DenyModal from '../../components/recipe/denyModal';
+import { denyRecipe } from '../../apis/mod/denyRecipe';
+import { approveRecipe } from '../../apis/mod/approveRecipe';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -39,31 +38,35 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const RecipeDetail = () => {
-  const [isLogin, setIsLogin] = useState(false);
+const PreviewRecipe = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data, isLoading, error } = useQuery(['recipes', id], () =>
+  const { data, isLoading, error } = useQuery(['modRecipes', id], () =>
     getRecipe(id)
   );
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const { mutate } = useMutation({
-    mutationFn: deleteRecipe,
+  const { mutate: accept } = useMutation({
+    mutationFn: approveRecipe,
     onSuccess: () => {
-      toast.success('Recipe deleted successfully');
+      toast.success('success');
+      navigate('/');
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
-  const classes = useStyles();
+  const { mutate: deny } = useMutation({
+    mutationFn: denyRecipe,
+    onSuccess: () => {
+      toast.success('success');
+      navigate('/');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-  useEffect(() => {
-    const token = localStorage.getItem('accountID');
-    if (token) {
-      setIsLogin(true);
-    }
-  }, []);
+  const classes = useStyles();
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -81,8 +84,12 @@ const RecipeDetail = () => {
     setDeleteOpen(false);
   };
 
-  const handleConfirmDelete = () => {
-    mutate(id);
+  const handleConfirmDeny = () => {
+    deny(id);
+  };
+
+  const handleApprove = () => {
+    accept(id);
   };
 
   const {
@@ -90,19 +97,8 @@ const RecipeDetail = () => {
     description,
     recipeImage,
     account: { accountID, userName },
-    isOwner,
-    meal,
     recipeID,
-    reviews,
   } = data;
-
-  const handleClickMealButton = () => {
-    if (meal) {
-      navigate(`/meals/${meal.mealID}`);
-    } else {
-      navigate(`/meals/add/${recipeID}`);
-    }
-  };
 
   return (
     <div className={classes.root}>
@@ -115,21 +111,12 @@ const RecipeDetail = () => {
         {data.recipeName}
       </Typography>
       <Stack direction="row" spacing={2}>
-        {isOwner ? (
-          <>
-            <Button variant="outlined" onClick={handleClickMealButton}>
-              Meal
-            </Button>
-            <ReouterLink to={`/recipes/${id}/edit`}>
-              <Button variant="outlined">Edit</Button>
-            </ReouterLink>
-            <Button variant="outlined" onClick={handleDeleteOpen} color="error">
-              Delete
-            </Button>
-          </>
-        ) : (
-          <Button variant="outlined">Add to wishlist</Button>
-        )}
+        <Button variant="outlined" onClick={handleApprove} color="success">
+          Approve
+        </Button>
+        <Button variant="outlined" onClick={handleDeleteOpen} color="error">
+          Deny
+        </Button>
       </Stack>
       <Stack spacing={2}>
         <span>
@@ -148,23 +135,14 @@ const RecipeDetail = () => {
             >{`${recipe.ingredient.ingredientName} ${recipe.quantity} ${recipe.unit}`}</li>
           ))}
         </div>
-        <DeleteModal
+        <DenyModal
           open={deleteOpen}
           handleClose={handleDeleteClose}
-          handleConfirm={handleConfirmDelete}
+          handleConfirm={handleConfirmDeny}
         />
-        <Divider />
-        <Typography variant="h5">Reviews</Typography>
-        <Stack spacing={3}>
-          {reviews.map((review, index) => (
-            <Review key={index} data={review} />
-          ))}
-          <Divider />
-          {isLogin ? <AddReview recipeID={id} /> : <> </>}
-        </Stack>
       </Stack>
     </div>
   );
 };
 
-export default RecipeDetail;
+export default PreviewRecipe;
