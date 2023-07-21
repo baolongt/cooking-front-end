@@ -20,6 +20,8 @@ import PreviewRecipe from '../pages/mod/previewRecipe.js';
 import OrdersModPage from '../pages/mod/orders.js';
 import IngredientsModPage from '../pages/mod/ingrediens.js';
 import IngredientAddForm from './ingredient/createIngredientForm.js';
+import AdminLayout from './layouts/adminLayout.js';
+import AdminPage from '../pages/admin/index.js';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -60,7 +62,13 @@ function App() {
     }
 
     if (localStorage.getItem('role') == 'AD') {
-      return;
+      return (
+        <AdminLayout>
+          <Routes>
+            <Route index path="/" element={<AdminPage />} />
+          </Routes>
+        </AdminLayout>
+      );
     }
 
     return (

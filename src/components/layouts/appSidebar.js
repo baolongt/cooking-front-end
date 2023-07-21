@@ -3,6 +3,7 @@ import React from 'react';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const AppSidebar = () => {
   const onLogout = () => {
@@ -46,7 +47,7 @@ const AppSidebar = () => {
               variant="plain"
             >
               <ListItemIcon>
-                <PersonIcon />
+                <ShoppingCartIcon />
               </ListItemIcon>
               Orders
             </ListItemButton>

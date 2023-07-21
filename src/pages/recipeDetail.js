@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Review from '../components/recipe/review';
 import AddReview from '../components/recipe/addReview';
+import 'react-quill/dist/quill.bubble.css';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -128,7 +129,7 @@ const RecipeDetail = () => {
             </Button>
           </>
         ) : (
-          <Button variant="outlined">Add to wishlist</Button>
+          <></>
         )}
       </Stack>
       <Stack spacing={2}>

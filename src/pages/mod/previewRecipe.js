@@ -5,7 +5,6 @@ import { useMutation, useQuery } from 'react-query';
 import { getRecipe } from '../../apis/recipe/getRecipe';
 import { makeStyles } from '@mui/styles';
 import { convert } from 'html-to-text';
-import { deleteRecipe } from '../../apis/recipe/recipeDelete';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import DenyModal from '../../components/recipe/denyModal';
@@ -97,7 +96,6 @@ const PreviewRecipe = () => {
     description,
     recipeImage,
     account: { accountID, userName },
-    recipeID,
   } = data;
 
   return (

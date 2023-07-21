@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useMutation } from 'react-query';
 import { TextField, Button, Box } from '@mui/material';
-import { createIngredient } from '../../apis/ingredient/ingredient';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { addIngredient } from '../../apis/ingredient/createIngredient';
+import { toast } from 'react-toastify';
 
 const schema = yup.object().shape({
   ingredientName: yup.string().required('Ingredient name is required'),
@@ -15,15 +16,24 @@ export default function IngredientAddForm() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const [createIngredientMutation, { isLoading, isError, isSuccess }] =
-    useMutation(createIngredient);
+  const { mutate } = useMutation({
+    mutationFn: addIngredient,
+    onSuccess: () => {
+      toast.success('order created successfully');
+      reset();
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const onSubmit = (data) => {
-    createIngredientMutation(data);
+    mutate(data.ingredientName);
   };
 
   return (
@@ -49,18 +59,9 @@ export default function IngredientAddForm() {
           helperText={errors.ingredientName?.message}
         />
 
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={isLoading || isSuccess}
-          fullWidth
-        >
+        <Button type="submit" variant="contained" color="primary" fullWidth>
           Create
         </Button>
-
-        {isError && <span>Error creating ingredient</span>}
-        {isSuccess && <span>Ingredient created successfully!</span>}
       </Box>
     </Box>
   );
